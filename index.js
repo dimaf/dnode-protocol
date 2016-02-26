@@ -96,7 +96,13 @@ Proto.prototype.handle = function (req) {
         if (!fn) {
             self.emit('fail', new Error('no such method'));
         }
-        else self.apply(fn, args);
+        else {
+            if (objectKeys(this.instance).length==0){
+                self.callbacks.local[req.method]=null;    
+            }
+            
+            self.apply(fn, args);
+        }
     }
 };
 
